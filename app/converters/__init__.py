@@ -1,10 +1,10 @@
 # -*- encoding: utf-8 -*-
-'''
-@File    :   __init__.py.py   
+"""
+@File    :   __init__.py.py
 @Contact :   zhangjie2@cuhk.edu.cn
 @License :   (C)Copyright 2018-2021
- 
+
 @Modify Time      @Author    @Version    @Desciption
 ------------      -------    --------    -----------
-2023/3/31 5:45   JeasonZhang      1.0         None
-'''
+2023/4/2 22:33   JeasonZhang      1.0         None
+"""

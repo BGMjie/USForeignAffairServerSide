@@ -1,13 +1,18 @@
 # -*- encoding: utf-8 -*-
 """
-@File    :   __init__.py.py
+@File    :   user.py
 @Contact :   zhangjie2@cuhk.edu.cn
 @License :   (C)Copyright 2018-2021
 
 @Modify Time      @Author    @Version    @Desciption
 ------------      -------    --------    -----------
-2023/3/31 6:08   JeasonZhang      1.0         None
+2023/4/3 1:09   JeasonZhang      1.0         None
 """
-from app import app
-from .user import user
-app.register_blueprint(user)
+from flask import Blueprint
+
+user = Blueprint('user', __name__)
+
+
+@user.route('/users')
+def get_users():
+    return 'userinfo'

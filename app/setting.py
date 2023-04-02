@@ -11,3 +11,4 @@
 
 SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:123456@localhost:3306/USSchedule?charset=utf8'
 SQLALCHEMY_TRACK_MODIFICATIONS = True
+SECRET_KEY = 'fih9fh9eh9gh2'

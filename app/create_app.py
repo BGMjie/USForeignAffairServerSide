@@ -11,21 +11,6 @@
 from flask import Flask
 
 
-def create_flask_app(config):
-    """
-    创建Flask应用
-    :param config: 配置对象
-    :return: Flask应用
-    """
-    # static_url_path='/s', static_folder='static', template_folder='templates'
-    app = Flask(__name__)
-    app.config.from_object(config)
-
-    # 从环境变量指向的配置文件中读取的配置信息会覆盖掉从配置对象中加载的同名参数
-    app.config.from_envvar("PROJECT_SETTING", silent=True)
-    return app
-
-
 class DefaultConfig(object):
     """默认配置"""
     pass
@@ -33,5 +18,23 @@ class DefaultConfig(object):
 
 class DevelopmentConfig(DefaultConfig):
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:123456@localhost:3306/USSchedule?charset=utf8'
-    SQLALCHEMY_TRACK_MODIFICATIONS = True
+
+
+class ProductionConfig(DefaultConfig):
+    DEBUG = False
+
+
+def create_flask_app():
+    app = Flask(__name__)
+    # print(__name__)
+    # 从环境变量指向的配置文件中读取配置信息
+    app.config.from_envvar("PROJECT_SETTING", silent=True)
+    # static_url_path='/s', static_folder='static', template_folder='templates'
+    return app
+
+
+def create_app(config):
+    app = create_flask_app()
+    app.config.from_object(config)  # 加载应用中config类的对象，覆盖掉从配置文件中加载的同名配置
+    return app
+    # print(app.config.get('SQLALCHEMY_DATABASE_URI'))

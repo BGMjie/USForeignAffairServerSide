@@ -9,11 +9,13 @@
 2023/3/31 5:41   JeasonZhang      1.0         None
 """
 
-from app.create_app import create_flask_app, DevelopmentConfig
+from app.create_app import create_app, DefaultConfig
 from flask_sqlalchemy import SQLAlchemy
 
-app = create_flask_app(DevelopmentConfig)
+app = create_app(DefaultConfig)
 db = SQLAlchemy(app)
+from app.converters.converters import PhoneNumberConverter
+app.url_map.converters['phone'] = PhoneNumberConverter
 
 from app.models import model
 from app.views import views
