@@ -1,18 +1,14 @@
 # -*- encoding: utf-8 -*-
 """
-@File    :   user.py
+@File    :   __init__.py.py
 @Contact :   zhangjie2@cuhk.edu.cn
 @License :   (C)Copyright 2018-2021
 
 @Modify Time      @Author    @Version    @Desciption
 ------------      -------    --------    -----------
-2023/4/3 1:09   JeasonZhang      1.0         None
+2023/3/31 6:06   JeasonZhang      1.0         None
 """
-from flask import Blueprint
-
-user = Blueprint('user', __name__)
+from .db_routing.routing_sqlalchemy import RoutingSQLAlchemy
 
 
-@user.route('/users')
-def get_users():
-    return 'userinfo'
+db = RoutingSQLAlchemy()

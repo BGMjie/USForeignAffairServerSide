@@ -2,6 +2,15 @@
 
 美国外交事务后台
 
+# 项目安装
+
+```shell
+conda create --name USForeignAffairServerSide python==3.6.7
+conda install flask==1.0.2
+pip install flask_sqlalchemy
+pip install flask_restful
+```
+
 # 项目配置
 
 首先需要配置以下环境变量
@@ -19,7 +28,6 @@ FLASK_DEBUG=1  # 如果不需要开启则填写0
 ```shell
 flask run
 ```
-
 
 不同位置的参数都存放在Flask包中request对象的不同属性中
 
