@@ -1,13 +1,13 @@
 # -*- encoding: utf-8 -*-
-'''
+"""
 @File    :   logger.py
 @Contact :   zhangjie2@cuhk.edu.cn
 @License :   (C)Copyright 2018-2021
- 
+
 @Modify Time      @Author    @Version    @Desciption
 ------------      -------    --------    -----------
 2023/2/24 2:09   JeasonZhang      1.0         None
-'''
+"""
 import logging
 import time
 

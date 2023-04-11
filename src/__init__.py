@@ -9,7 +9,7 @@
 2023/3/31 5:41   JeasonZhang      1.0         None
 """
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
+from flask_cors import CORS
 
 
 def create_flask_app(config, enable_config_file=False):
@@ -19,8 +19,10 @@ def create_flask_app(config, enable_config_file=False):
     :param enable_config_file: 是否允许运行环境中的配置文件覆盖已加载的配置信息
     :return: Flask应用
     """
-    app = Flask(__name__)
+    app = Flask(__name__, static_url_path='/static')
+    print(__name__)
     app.config.from_object(config)  # 加载应用中config类的对象，覆盖掉从配置文件中加载的同名配置
+    # print('CORS_ORIGINS: ' + app.config.get('CORS_ORIGINS'))
     if enable_config_file:
         from utils import constants
         app.config.from_envvar(constants.GLOBAL_SETTING_ENV_NAME, silent=True)
@@ -42,10 +44,13 @@ def create_app(config, enable_config_file=False):
 
     # MySQL数据库连接初始化
     from models import db
-
     db.init_app(app)
+    # print(app)
 
     # 注册美国外交数据蓝图
     from .Resources.USSchdule import us_bp
     app.register_blueprint(us_bp)
+
+    # 注册跨域
+    CORS(app)
     return app

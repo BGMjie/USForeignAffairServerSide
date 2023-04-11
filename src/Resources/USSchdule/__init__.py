@@ -11,8 +11,10 @@
 from flask import Blueprint
 from flask_restful import Api
 from utils.output import output_json
+from . import trump
+
 
 us_bp = Blueprint('user', __name__)
 us_api = Api(us_bp, catch_all_404s=True)
 us_api.representation('application/json')(output_json)
-
+us_api.add_resource(trump.TrumpResource, '/v1_0/trump', endpoint='trump')

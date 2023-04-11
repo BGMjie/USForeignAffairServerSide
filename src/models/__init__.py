@@ -12,3 +12,4 @@ from .db_routing.routing_sqlalchemy import RoutingSQLAlchemy
 
 
 db = RoutingSQLAlchemy()
+print(db)
