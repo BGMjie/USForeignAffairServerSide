@@ -13,6 +13,8 @@ import json
 from flask import current_app
 from flask_restful import Resource, reqparse
 from flask_restful.inputs import date
+from sqlalchemy import and_
+
 # 导入模型类
 from models.us_schedule import TrumpFinal
 from models import db
@@ -27,16 +29,16 @@ class TrumpResource(Resource):
     def get(self):
         # print(f'总共获取到了{TrumpFinal.query.count()}条数据')
         req = reqparse.RequestParser()
-        # req.add_argument('id', type=int, required=True, location='args')
-        req.add_argument('date', type=str, required=True, location='args')
+        req.add_argument('from_date', type=str, required=True, location='args')
+        req.add_argument('to_date', type=str, required=True, location='args')
         args = req.parse_args()
-        # args_id = args.id
-        args_date = args.date
-        # print(f'{args_id}+{args_date}+{type(args_date)}')
+        args_from_date = args.from_date
+        args_to_date = args.to_date
+        print(f'{args_from_date}+{args_to_date}')
 
         try:
             # 要加载表中的哪些字段
-            data = TrumpFinal.query.options(load_only(
+            data_list = TrumpFinal.query.options(load_only(
                 TrumpFinal.id,
                 TrumpFinal.lastname,
                 TrumpFinal.date,
@@ -46,21 +48,32 @@ class TrumpResource(Resource):
                 # User.profile_photo,
                 # User.introduction,
                 # User.certificate
-            )).filter_by(date=args_date).first()
-            print(type(data.travel_places))
+            )).filter(and_(TrumpFinal.date.between(args_from_date, args_to_date), TrumpFinal.type == 'Travel')).all()
         except DatabaseError as e:
             current_app.logger.error(e)
             raise e
 
         # sqlalchemy 中查询数据，如果数据不存在，不会抛出异常报错，而是返回None
-        if data is not None:
-            # 如果数据库查到数据，形成缓存数据，保存到redis中
-            user_dict = {
-                'id': data.id,
-                'lastname': data.lastname,
-                'date': data.date.strftime("%Y-%m-%d"),
-                'travel_places': data.travel_places
-            }
+        if data_list is not None:
+            final_dict = dict()
+            for data in data_list:
+                print(f'{data.lastname} + {data.date} + {data.travel_places}')
+                arr = []
+                for place in data.travel_places:
+                    place_dit = dict()
+                    place_dit['name'] = place
+                    place_dit.update(data.travel_places[place])
+                    arr.append(place_dit)
+                print(place_dit)
+                print(type(data.travel_places))
+                print(type(data.travel_places[place]))
+                arr.append({place: place})
+                data_dict = {
+                    'lastname': data.lastname,
+                    'date': data.date.strftime("%Y-%m-%d"),
+                    'travel_places': arr
+                }
+                final_dict[data.id] = data_dict
 
             # user_json_str = json.dumps(user_dict)
             # try:
@@ -68,7 +81,7 @@ class TrumpResource(Resource):
             # except RedisError as e:
             #     current_app.logger.error(e)
 
-            return user_dict
+            return final_dict
         else:
             # 在sqlalchemy中,如果数据库没有查到数据不会抛出异常报错，而是返回None
             # 返回
