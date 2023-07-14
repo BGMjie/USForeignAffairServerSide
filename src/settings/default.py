@@ -17,8 +17,8 @@ class DefaultConfig(object):
     # SQLALCHEMY_DATABASE_URI = 'mysql://root:123456@localhost:3306/USSchedule?charset=utf8'
     # SQLALCHEMY_DATABASE_URI = 'mysql://root:mysql@127.0.0.1/toutiao'  # 数据库
     SQLALCHEMY_BINDS = {
-        'bj-m1': 'mysql+pymysql://root:123456@localhost:3306/USSchedule?charset=utf8',
-        'bj-s1': 'mysql+pymysql://root:123456@localhost:3306/USSchedule?charset=utf8',
+        'bj-m1': 'mysql+pymysql://root:Jeason52@47.119.165.65:3990/USSchedule?charset=utf8',
+        'bj-s1': 'mysql+pymysql://root:Jeason52@47.119.165.65:3990/USSchedule?charset=utf8',
         'masters': ['bj-m1'],
         'slaves': ['bj-s1'],
         'default': 'bj-m1'
